@@ -1,0 +1,38 @@
+name: Release Maven JAR
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Build fat JAR
+        run: mvn clean package
+
+      - name: Find and rename fat JAR
+        run: |
+          mkdir -p dist
+          FAT_JAR=$(find target -name "*-jar-with-dependencies.jar" | head -n 1)
+          VERSION=${GITHUB_REF_NAME#v}
+          cp "$FAT_JAR" "dist/FloorIDE-$VERSION.jar"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: dist/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
