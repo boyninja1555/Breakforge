@@ -27,7 +27,7 @@ jobs:
           mkdir -p dist
           FAT_JAR=$(find target -name "*-jar-with-dependencies.jar" | head -n 1)
           VERSION=${GITHUB_REF_NAME#v}
-          cp "$FAT_JAR" "dist/FloorIDE-$VERSION.jar"
+          cp "$FAT_JAR" "dist/Breakforge-$VERSION.jar"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

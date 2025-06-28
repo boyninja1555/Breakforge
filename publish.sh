@@ -12,5 +12,5 @@ fi
 git tag "$TAG"
 git push origin "$TAG"
 
-echo "✅ Tagged and pushed FloorIDE version $VERSION"
+echo "✅ Tagged and pushed Breakforge version $VERSION"
 echo "🚀 GitHub Actions will now build and release the app"
